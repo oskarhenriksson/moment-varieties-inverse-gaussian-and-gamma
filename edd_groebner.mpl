@@ -1,6 +1,5 @@
 # This file contains code for the proof of Proposition 4.5
 
-
 # Degree reverse lexicographic order
 ord := tdeg(seq(m[i],i=1..d),a,b)
 
