@@ -1,41 +1,53 @@
 # Fix seed for reproducibility
 randomize(12345);
 
-for d from 1 to 100 do
-	for k from 1 to d do
+random_parameters := rand(1..1000);
 
-		print((d,k));
+for d from 1 to 10 do
+	for k from 2 to d do
 
+		printf("d=%d\n",d);
+		printf("k=%d\n",k);
+
+		# Expected dimension
 		expected_dimension := min([d,2*k + k - 1]);
 
-		parametrization := subs([lambda[k]=1-add(lambda[i],i=1..(k-1))],[
-			seq(add(lambda[i]*beta[i]^r*mul((alpha[i]+j),j=1..(r-1)),i=1..k),r=1..d)]):
+		moment_polynomials := [mu,mu^2*(lambda+mu)/lambda]:
+		for i from 3 to d do
+			moment_polynomials := [op(moment_polynomials), expand((2*i-3)/lambda*mu^2*moment_polynomials[i-1] + mu^2*moment_polynomials[i-2]) ]:
+		end do:
 
-		Jac := VectorCalculus[Jacobian](parametrization,[seq(lambda[i],i=1..k-1),seq(alpha[i],i=1..k),seq(beta[i],i=1..k)]):
+		# Form the generators of the ideal of the incidence variety
+		parametrization := subs([alpha[k]=1-add(alpha[i],i=1..(k-1))],[
+			seq(add(alpha[i]*subs([mu=mu[i],lambda=lambda[i]],moment_polynomials[r]),i=1..k),r=1..d)]):
+
+		Jac := VectorCalculus[Jacobian](parametrization,[seq(lambda[i],i=1..k),seq(mu[i],i=1..k),seq(alpha[i],i=1..(k-1))]):
 
 		# Compute the rank at a random integer point
-		subs([seq(lambda[i]=rand(-1000..1000)(),i=1..k-1),seq(alpha[i]=rand(-1000..1000)(),i=1..k),seq(beta[i]=rand(-1000..1000)(),i=1..k)],Jac):
-		lower_bound_of_dimension := LinearAlgebra[Rank](%);
+		# Make 10 attempts to obtain the expected dimension
 
-		# Pick another point if the rank is lower than the expected one
-		if expected_dimension <> lower_bound_of_dimension then
-			subs([seq(lambda[i]=rand(-10000..10000)(),i=1..k-1),seq(alpha[i]=rand(-10000..10000)(),i=1..k),seq(beta[i]=rand(-10000..10000)(),i=1..k)],Jac):
-			lower_bound_of_dimension := LinearAlgebra[Rank](%);
+		lower_bound_of_dimension := -1;
+
+		for i from 1 to 10 do			
+			if lower_bound_of_dimension <> expected_dimension then
+				theta_star := [seq(alpha[i]=random_parameters(),i=1..(k-1)),seq(lambda[i]=random_parameters(),i=1..k),seq(mu[i]=random_parameters(),i=1..k)]:
+				Jac_star := subs(theta_star,Jac):
+				lower_bound_of_dimension := LinearAlgebra[Rank](Jac_star);
+			end if:
+		end do;
+
+
+		#print(lower_bound_of_dimension,expected_dimension);
+
+		if lower_bound_of_dimension <> expected_dimension then
+			printf(">> Lower than expected rank! <<")
+		else
+			printf(convert(theta_star,string));
+			printf("\n");
+			printf("\n");
 		end if;
-
-		if expected_dimension <> lower_bound_of_dimension then
-			subs([seq(lambda[i]=rand(-10000..10000)(),i=1..k-1),seq(alpha[i]=rand(-10000..10000)(),i=1..k),seq(beta[i]=rand(-10000..10000)(),i=1..k)],Jac):
-			lower_bound_of_dimension := LinearAlgebra[Rank](%);
-		end if;
-
-		print((lower_bound_of_dimension,expected_dimension));
-
-		if expected_dimension <> lower_bound_of_dimension then
-			print("Lower than expected rank");
-		end if;
-
-		print(\n);
 
 		break if lower_bound_of_dimension = d;
+
 	end do;
 end do;
