@@ -8,7 +8,7 @@ The respository consists of the following directories:
 
 - **identifiability_degrees** containing Julia files `gamma_identifiability_degree.jl` and `inverse_gaussian_identifiability_degree.jl` for numerical estimation of the identifiability degrees, as well as a file `certify_orbits.jl` with a function for certifying orbits of a group action. Numerical certificates of the computed solutions are also included in the directory.
 
-**ed_degrees** containing Julia files `edd_groebner.jl` and `edd_nag.jl` for symbolic and numeric computation, respectively, of the ED degrees given in §5.3 of the paper.
+- **ed_degrees** containing Julia files `edd_groebner.jl` and `edd_nag.jl` for symbolic and numeric computation, respectively, of the ED degrees given in §5.3 of the paper.
 
   
 ## Dependencies
