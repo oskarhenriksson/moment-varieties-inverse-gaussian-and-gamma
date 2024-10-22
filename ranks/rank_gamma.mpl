@@ -1,5 +1,5 @@
 # Fix seed for reproducibility
-Randomize(12345);
+randomize(12345);
 
 for d from 1 to 100 do
 	for k from 1 to d do
