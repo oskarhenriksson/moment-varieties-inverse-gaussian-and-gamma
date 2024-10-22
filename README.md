@@ -12,4 +12,4 @@ The respository consists of the following directories:
 
   
 ## Dependencies
-The rank computations were done in Maple 2023. For the numerical degree compuations, HomotopyContinuation.jl v2.9.3 was used, whereas the symbolic degree computations were done in Oscar v0.13.0 (see `julia_environment/Manifest.toml` for details). 
+The rank computations were done in Maple 2023. The rest of the code is written for Julia 1.10. For the numerical degree compuations, the Julia package HomotopyContinuation.jl v2.9.3 was used, whereas the symbolic degree computations were done using the Julia package Oscar v0.13.0 (see `julia_environment/Manifest.toml` for detailed Julia dependencies). 
