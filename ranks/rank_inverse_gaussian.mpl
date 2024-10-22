@@ -1,5 +1,5 @@
 # Fix seed for reproducibility
-Randomize(12345);
+randomize(12345);
 
 for d from 1 to 100 do
 	for k from 1 to d do
@@ -43,7 +43,7 @@ for d from 1 to 100 do
 
 		print(\n);
 
-		break if lower_bound_dimension = d;
+		break if lower_bound_of_dimension = d;
 
 	end do;
 end do;
