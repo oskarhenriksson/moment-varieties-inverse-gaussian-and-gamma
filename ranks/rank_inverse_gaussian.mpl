@@ -36,9 +36,6 @@ for d from 1 to 100 do
 			end if:
 		end do;
 
-
-		#print(lower_bound_of_dimension,expected_dimension);
-
 		if lower_bound_of_dimension <> expected_dimension then
 			printf(">> Lower than expected rank! <<")
 		else
