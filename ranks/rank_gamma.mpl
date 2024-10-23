@@ -3,7 +3,7 @@ randomize(12345);
 
 random_parameters := rand(1..1000);
 
-for d from 1 to 10 do
+for d from 1 to 100 do
 	for k from 2 to d do
 
 		printf("d=%d\n",d);
