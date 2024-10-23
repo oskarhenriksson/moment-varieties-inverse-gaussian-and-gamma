@@ -1,8 +1,6 @@
 # Fix seed for reproducibility
 randomize(12345);
 
-interface(rtablesize=infinity):
-
 random_parameters := rand(1..1000);
 
 for d from 1 to 100 do
